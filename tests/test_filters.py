@@ -44,9 +44,10 @@ class TestFilter:
     def test_default(self, env):
         tmpl = env.from_string(
             "{{ missing|default('no') }}|{{ false|default('no') }}|"
-            "{{ false|default('no', true) }}|{{ given|default('no') }}"
+            "{{ false|default('no', true) }}|{{ given|default('no') }}|"
+            "{{ none|default('no') }}|{{ none|default('no', include_none=true) }}"
         )
-        assert tmpl.render(given="yes") == "no|False|no|yes"
+        assert tmpl.render(given="yes") == "no|False|no|yes|None|no"
 
     @pytest.mark.parametrize(
         "args,expect",
